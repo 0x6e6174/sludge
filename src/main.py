@@ -22,7 +22,7 @@ def handle_client(client: socket.socket, addr: Tuple[str, int]) -> None:
         .send(client)
 
 def main() -> None:
-    http_thread = threading.Thread(name='http', target=serve, args=('0.0.0.0', 5000, handle_client))
+    http_thread = threading.Thread(name='http', target=serve, args=('0.0.0.0', 6000, handle_client))
     https_thread = threading.Thread(name='https', target=serve, args=('0.0.0.0', 6001, handle_client), kwargs=dict(wrapper=lambda socket: [
                 ctx:=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER),
                 ctx.load_cert_chain(certfile='./badcert.pem', keyfile='./badkey.pem'),
@@ -30,8 +30,8 @@ def main() -> None:
             ][-1]
         ))
 
-    http_thread.start()
-    #https_thread.start()
+    #http_thread.start()
+    https_thread.start()
 
 if __name__ == '__main__': 
     main()

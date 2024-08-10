@@ -9,8 +9,9 @@ pkgs.mkShell {
     pkgs.python312Packages.bleach
     pkgs.python312Packages.beautifulsoup4
     pkgs.python312Packages.pygraphviz
+    pkgs.python312Packages.requests_toolbelt
   ];
   shellHook = ''
-    python main.py
+    python src/main.py
   '';
 }
