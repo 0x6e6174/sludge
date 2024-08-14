@@ -5,6 +5,7 @@ from .path import Path
 from .headers import Headers 
 from .body import Body
 from .router import routes
+from .logger import log
 
 @dataclass
 class Request:
@@ -43,12 +44,13 @@ class Request:
         body_start = request_str.find('\r\n\r\n') + 4
         body = Body(request_bytes[body_start:], headers.get('Content-Type') or 'text/plain')
 
+        log.info(f'received request for {path.path} from {headers.get('X-Real-IP')}')
         return cls(method, path, version, headers, body)
 
     def match(self):
         for route in routes: 
-            if route.matches(self): 
-                print(route)
+            if route.matches(self):
+                log.debug(f'matched {self} with {route}')
                 return route
 
     def __repr__(self):

@@ -1,4 +1,5 @@
 from lib import Request, serve 
+from lib.logger import log
 from typing import Tuple
 import threading
 import socket
@@ -16,7 +17,6 @@ def handle_client(client: socket.socket, addr: Tuple[str, int]) -> None:
 
     while (data := client.recv(1024)):
         request += data
-        print(len(data), data)
 
         if len(data) < 1024: break
 
@@ -24,6 +24,8 @@ def handle_client(client: socket.socket, addr: Tuple[str, int]) -> None:
         .match() \
         .execute(request, client, addr) \
         .send(client)
+
+    log.info('destroy thread')
 
 def main() -> None:
     http_thread = threading.Thread(name='http', target=serve, args=('0.0.0.0', config['http-port'], handle_client))

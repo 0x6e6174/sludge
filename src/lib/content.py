@@ -45,8 +45,7 @@ def remove_html_tags(input_string: str) -> str:
 
 def error_page(code: int) -> Response:
     type = ResponseCode(code)
-    print('error page called')
-    aoeu= Response(
+    return Response(
         type, 
         {'Content-Type': 'text/html'},
         parse(f'''
@@ -61,8 +60,6 @@ def error_page(code: int) -> Response:
         </html>
         ''').encode('utf-8')
     )
-    print(aoeu)
-    return aoeu
 
 def page(title, body): 
     return parse("""         

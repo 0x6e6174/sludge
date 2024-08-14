@@ -8,7 +8,9 @@ from .response import Response
 from .responsecodes import ResponseCode
 from .content import *
 from .patchers import patchers
+from .logger import log
 import os
+import traceback
 
 @dataclass
 class Route: 
@@ -28,7 +30,7 @@ class Route:
             return response
 
         except Exception as e:
-            print(e)
+            log.error(tracebark.format_exc)
             return error_page(500)
 
     def matches(self, request: 'Request') -> bool:
@@ -46,7 +48,6 @@ routes = [
                 [
                     (lambda form_data: ( 
                         (lambda time: (
-                            print('\n\nFORM DATA!!!!',form_data,request, '\n\n'),
                             f:=open(f'./files/posts-to-homepage/post_{time}.txt', 'w'),
                             f.write(f"<i style='font-family: MapleMonoItalic'>{form_data['name']}</i>@{time}<br>{form_data['text']}<br><br>"),
                             f.close()
@@ -60,7 +61,7 @@ routes = [
                     parse_file('./home.html').encode('utf-8')
                 ][1]
             ))
-        ) if len(request.body.data) > 0 or request.method != Method.POST else error_page(ResponseCode.BAD_REQUEST)
+        ) if len(request.body.data) > 0 or request.method != Method.POST else error_page(400)
     ),
     Route(
         lambda path: os.path.isdir('.' + path.path), 

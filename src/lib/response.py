@@ -1,6 +1,7 @@
 from socket import socket
 from typing import Dict
 from .responsecodes import ResponseCode
+from .logger import log 
 
 class Response:
     def __init__(self, code: ResponseCode, headers: Dict[str, str], body: bytes):
@@ -16,6 +17,9 @@ class Response:
         )
 
     def send(self, client: socket) -> None:
-        print(self)
+        log.debug(f'sending {self} to {client}') 
         client.sendall(self.build_response())
         client.close()
+
+    def __repr__(self): 
+        return f'Response(code={self.code}, headers={self.headers}, body={self.body[:256]})'

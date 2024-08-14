@@ -86,5 +86,10 @@ patchers: List[Patcher] = [
         response.code, 
         response.headers,
         uwuify(response.body).encode('utf-8')
-    ) if 'text/html' in response.headers.values() and is_subdict({'uwu': 'true'}, request.path.params) else response
+    ) if 'text/html' in response.headers.values() and is_subdict({'uwu': 'true'}, request.path.params) else response,
+        lambda response, request: Response(
+        response.code, 
+        response.headers,
+        re.sub(r'sludge', lambda match: 'sludge' + ' (/&#x73;&#x6c;&#x28c;&#x64;&#x361;&#x292;/)' if random.randint(0, 5) < 1 else 'sludge', response.body.decode('utf-8')).encode('utf-8')
+    ) if 'text/html' in response.headers.values() else response
 ]
