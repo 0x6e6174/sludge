@@ -48,7 +48,8 @@ in which case it would resolve to
 ```html
 <p>lorem ipsum foo</p>
 ```
-<br>
+<br> 
+
 in practice, this may be seen here:
 ```py
 Route(
