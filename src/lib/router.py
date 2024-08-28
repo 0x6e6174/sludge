@@ -30,7 +30,7 @@ class Route:
             return response
 
         except Exception as e:
-            log.error(tracebark.format_exc)
+            log.error(traceback.format_exc)
             return error_page(500)
 
     def matches(self, request: 'Request') -> bool:
@@ -38,6 +38,14 @@ class Route:
         return self.matcher(request.path)
 
 routes = [
+    Route(
+        lambda request: request.path == '/style.css',
+        [Method.GET],
+        lambda request, *_: Response(
+            ResponseCode.OK, 
+            *raw_file_contents('./style.css')
+        )
+    ),
     Route(
         lambda request: request.path == '/', 
         [Method.GET, Method.POST], 

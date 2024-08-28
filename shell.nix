@@ -10,6 +10,7 @@ pkgs.mkShell {
     pkgs.python312Packages.beautifulsoup4
     pkgs.python312Packages.pygraphviz
     pkgs.python312Packages.requests_toolbelt
+    pkgs.python312Packages.pyaml
   ];
   shellHook = ''
     python src/main.py
