@@ -151,6 +151,17 @@ routes = [
         )
     ),
     Route(
+        lambda request: request.path == '/stats/what-vim-buffers-does-it-have-open', 
+        [Method.GET],
+        lambda *_: Response( 
+            ResponseCode.OK,
+            {'Content-type': 'text/html'},
+            page("vim bufs", """
+                $[cat ./files/stats/vim-bufs | xargs -I% echo %'<br>']
+            """)
+        )
+    ),
+    Route(
         lambda request: request.path == '/stats',
         [Method.GET],
         lambda request, *_: Response(
