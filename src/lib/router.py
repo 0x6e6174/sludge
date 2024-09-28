@@ -117,7 +117,7 @@ routes = [
         lambda request, *_: Response(
             ResponseCode.OK,
             {'Content-Type': 'text/html'},
-            generate_opengraph_html(f'https://natalieee.net{request.path.path}?hash={request.path.params['hash']}').encode('utf-8')
+            generate_opengraph_html(f'https://files.natalieee.net{request.path.path}?hash={request.path.params['hash']}').encode('utf-8')
         ) 
     ),
     Route(
