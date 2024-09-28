@@ -18,5 +18,5 @@ stream_logger.setFormatter(formatter)
 log.addHandler(file_logger) 
 log.addHandler(stream_logger)
 
-log.info('log initialized')
+log.info('log initialized') if not __name__ == 'sludge.src.lib.logger' else ...
 

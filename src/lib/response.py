@@ -4,7 +4,7 @@ from .responsecodes import ResponseCode
 from .logger import log 
 
 class Response:
-    def __init__(self, code: ResponseCode, headers: Dict[str, str], body: bytes):
+    def __init__(self, code: ResponseCode, headers: Dict[str, str] = dict(), body: bytes = b''):
         self.code = code
         self.headers = headers
         self.body = body
