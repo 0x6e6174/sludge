@@ -11,6 +11,7 @@ pkgs.mkShell {
     pkgs.python312Packages.pygraphviz
     pkgs.python312Packages.requests_toolbelt
     pkgs.python312Packages.pyaml
+    pkgs.python312Packages.pillow
   ];
   shellHook = ''
     python src/main.py
