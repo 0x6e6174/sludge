@@ -115,6 +115,6 @@ patchers: List[Patcher] = [
     lambda response, request: Response(
         response.code,
         response.headers, 
-        apply_url_params(response.body.replace(b'<head>', b'<head><style>:root,body,body>main>section,body>main>section>flex-grid>flex-grid-item{animation:spiin 480s infinite ease-in-out;transform-origin:center}@keyframes spiin{0%{transform:rotate(0deg)}50%{transform:rotate(180)}100%{transform:rotate(360deg)}}</style>'), 'spin=true').encode('utf-8')
+        apply_url_params(response.body.replace(b'<head>', b'<head><style>:root,body,body>main>section,body>main>section>flex-grid>flex-grid-item{animation:spiin 480s infinite ease-in-out;transform-origin:center}@keyframes spiin{0%{transform:rotate(0deg)}50%{transform:rotate(180)}100%{transform:rotate(360deg)}}</style>'), 'spiin=true').encode('utf-8')
     ) if 'text/html' in response.headers.values() and (random.randint(0, 1000) < 1 or is_subdict({'spiin': 'true'}, request.path.params)) else response
 ]
