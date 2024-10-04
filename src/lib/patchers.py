@@ -47,6 +47,20 @@ def uwuify_text(text):
     
     return '. '.join(uwuified_sentences)
 
+def apply_url_params(body, params: str):
+    body = body.decode('utf-8')
+    soup = BeautifulSoup(body, 'html.parser')
+
+    for a_tag in soup.find_all('a', href=True):
+        original_href = a_tag['href']
+        if '?' in original_href:
+            new_href = f"{original_href}&{params}"
+        else:
+            new_href = f"{original_href}?{params}"
+        a_tag['href'] = new_href
+        
+    return str(soup)
+
 def uwuify(body):
     body = body.decode('utf-8')
     soup = BeautifulSoup(body, 'html.parser')
@@ -91,5 +105,16 @@ patchers: List[Patcher] = [
         response.code, 
         response.headers,
         re.sub(r'sludge', lambda match: 'sludge' + ' (/&#x73;&#x6c;&#x28c;&#x64;&#x361;&#x292;/)' if random.randint(0, 5) < 1 else 'sludge', response.body.decode('utf-8')).encode('utf-8')
-    ) if 'text/html' in response.headers.values() else response
+    ) if 'text/html' in response.headers.values() else response,
+    lambda response, request: Response(
+        response.code,
+        response.headers, 
+        apply_url_params(response.body.replace(b'<head>', b'<head><style>:root,body,body>main>section{animation:swing 180s infinite ease-in-out;transform-origin:center}@keyframes swing{0%{transform:rotate(0deg)}50%{transform:rotate(-1deg)}100%{transform:rotate(1deg)}}</style>'), 'swing=true').encode('utf-8')
+    ) if 'text/html' in response.headers.values() and (random.randint(0, 100) < 1 or is_subdict({'swing': 'true'}, request.path.params)) else response,
+    # spiin!
+    lambda response, request: Response(
+        response.code,
+        response.headers, 
+        apply_url_params(response.body.replace(b'<head>', b'<head><style>:root,body,body>main>section,body>main>section>flex-grid>flex-grid-item{animation:spiin 480s infinite ease-in-out;transform-origin:center}@keyframes spiin{0%{transform:rotate(0deg)}50%{transform:rotate(180)}100%{transform:rotate(360deg)}}</style>'), 'spin=true').encode('utf-8')
+    ) if 'text/html' in response.headers.values() and (random.randint(0, 1000) < 1 or is_subdict({'spiin': 'true'}, request.path.params)) else response
 ]
