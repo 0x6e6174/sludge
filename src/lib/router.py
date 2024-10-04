@@ -30,7 +30,7 @@ class Route:
             return response
 
         except Exception as e:
-            log.error(traceback.format_exc)
+            log.error(traceback.format_exc())
             return error_page(500)
 
     def matches(self, request: 'Request') -> bool:
