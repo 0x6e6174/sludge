@@ -83,11 +83,11 @@ routes = [
     Route(
         lambda path: os.path.isfile('.' + path.path) and path.path.startswith('/html/') and (path.path.endswith('.html') or '/thoughts/' in path.path),
         [Method.GET],
-        lambda request, *_: Response(
+        lambda request, *_: [print(request.path), Response(
             ResponseCode.OK,
             {'Content-Type': 'text/html'},
-            parse_file('.' + request.path.path, dict(prev=request.headers.get('Referer').replace('/', '\\/') if request.headers.has('Referer') else '')).encode('utf-8')
-        )
+            parse_file('.' + request.path.path, dict((k, v.replace('\'', '')) for k, v in map(lambda item: (item[0], item[1]), request.path.params.items()))).encode('utf-8')
+        )][-1]
     ), 
     Route(
         lambda path: os.path.isfile('.' + path.path) and (path.path.startswith('/font/') or path.path.startswith('/files/')),
