@@ -8,11 +8,11 @@ class Headers:
     def has(self, key: str) -> bool:
         return key in self.headers.keys()
 
-    def get(self, key: str) -> str | None: 
+    def get(self, key: str) -> str: 
         if self.has(key):
             return self.headers[key]
 
-        return None 
+        return ''
 
     def add(self, key, value) -> None: 
         self.headers[key] = value

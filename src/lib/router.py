@@ -52,7 +52,7 @@ routes = [
         lambda request, *_: Response(
             ResponseCode.OK,
             {'Content-Type': 'text/html'},
-            (parse_file('./home.html', dict(prev='\\/')).encode('utf-8') if request.method == Method.GET else (
+            ((parse_file('./home.html', dict(prev='\\/')).encode('utf-8') if not 'Nim httpclient' in request.headers.get('user-agent') else error_page(200)) if request.method == Method.GET else (
                 [
                     (lambda form_data: ( 
                         (lambda time: (
