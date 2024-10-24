@@ -44,7 +44,9 @@ class Request:
         body_start = request_str.find('\r\n\r\n') + 4
         body = Body(request_bytes[body_start:], headers.get('Content-Type') or 'text/plain')
 
-        log.info(f'received request for {path.path} from {headers.get('X-Real-IP')}')
+        if not 'Nim httpclient' in headers.get('user-agent'):
+            log.info(f'received request for {path.path} from {headers.get('X-Real-IP')}')
+
         return cls(method, path, version, headers, body)
 
     def match(self):

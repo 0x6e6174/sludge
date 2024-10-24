@@ -25,7 +25,7 @@ def handle_client(client: socket.socket, addr: Tuple[str, int]) -> None:
         .execute(request, client, addr) \
         .send(client)
 
-    log.info('destroy thread')
+    log.debug('destroy thread')
 
 def main() -> None:
     http_thread = threading.Thread(name='http', target=serve, args=('0.0.0.0', config['http-port'], handle_client))
