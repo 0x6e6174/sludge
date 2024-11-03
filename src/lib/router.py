@@ -98,6 +98,14 @@ routes = [
         )
     ),
     Route(
+        lambda request: request.path == '/robots.txt',
+        [Method.GET],
+        lambda *_: Response(
+            ResponseCode.OK,
+            *raw_file_contents('./robots.txt')
+        )
+    ),
+    Route(
         lambda request: request.path == '/status',
         [Method.GET],
         lambda *_: Response(
