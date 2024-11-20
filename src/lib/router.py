@@ -90,7 +90,7 @@ routes = [
         )][-1]
     ), 
     Route(
-        lambda path: os.path.isfile('.' + path.path) and (path.path.startswith('/font/') or path.path.startswith('/files/')),
+        lambda path: os.path.isfile('.' + path.path) and (path.path.startswith('/font/') or path.path.startswith('/files/') or path.path.startswith('/.well-known/')),
         [Method.GET],
         lambda request, *_: Response(
             ResponseCode.OK,
